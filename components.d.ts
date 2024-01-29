@@ -10,10 +10,8 @@ declare module 'vue' {
     BButton: typeof import('bootstrap-vue-next')['BButton']
     CryptoComponent: typeof import('./src/components/CryptoComponent.vue')['default']
     CryptoList: typeof import('./src/components/CryptoList.vue')['default']
-    FetchComponent: typeof import('./src/components/FetchComponent.vue')['default']
     OpenedProduct: typeof import('./src/components/OpenedProduct.vue')['default']
     ProductComponent: typeof import('./src/components/ProductComponent.vue')['default']
-    Products: typeof import('./src/components/Products.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
