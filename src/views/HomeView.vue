@@ -1,12 +1,9 @@
 <template>
-  <!-- <BButton @click="increment" variant="success">{{ value }}</BButton>
-
-  <BButton variant="outline-primary">Primary</BButton> -->
-  <FetchComponent />
+  <CryptoList />
 </template>
 
 <script setup lang="ts">
-import FetchComponent from "../components/FetchComponent.vue";
+import CryptoList from "../components/CryptoList.vue";
 import { ref } from "vue";
 
 const value = ref(0);

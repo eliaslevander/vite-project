@@ -8,11 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BButton: typeof import('bootstrap-vue-next')['BButton']
-    BCol: typeof import('bootstrap-vue-next')['BCol']
-    BContainer: typeof import('bootstrap-vue-next')['BContainer']
-    BRow: typeof import('bootstrap-vue-next')['BRow']
+    CryptoComponent: typeof import('./src/components/CryptoComponent.vue')['default']
+    CryptoList: typeof import('./src/components/CryptoList.vue')['default']
     FetchComponent: typeof import('./src/components/FetchComponent.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    OpenedProduct: typeof import('./src/components/OpenedProduct.vue')['default']
+    ProductComponent: typeof import('./src/components/ProductComponent.vue')['default']
+    Products: typeof import('./src/components/Products.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

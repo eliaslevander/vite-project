@@ -1,4 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from "vue";
+import { productsStore } from "./stores/products";
+import { currenciesStore } from "./stores/cryptocurrencies";
+const productStore = productsStore();
+const currencyStore = currenciesStore();
+
+onMounted(() => {
+  productStore.fetchData();
+  currencyStore.fetchData();
+});
+</script>
 
 <template>
   <nav>
@@ -11,6 +22,9 @@
       </li>
       <li>
         <RouterLink to="/contact">Kontakt</RouterLink>
+      </li>
+      <li>
+        <RouterLink to="/catalog">Katalog</RouterLink>
       </li>
     </ul>
   </nav>
