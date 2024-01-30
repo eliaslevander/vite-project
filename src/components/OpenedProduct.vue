@@ -1,10 +1,14 @@
 <template>
-  <div class="product" v-if="openedProduct">
-    <img :src="openedProduct.thumbnail" alt="product image" />
+  <div class="card" v-if="openedProduct">
+    <img
+      class="product-image"
+      :src="openedProduct.images[0]"
+      alt="product image"
+    />
     <h2>Brand: {{ openedProduct.title }}</h2>
     <p>Description: {{ openedProduct.description }}</p>
-    <p>Price: {{ openedProduct.price }}</p>
-    <p>Category: {{ openedProduct.category }}</p>
+    <p>Price: ${{ openedProduct.price }}</p>
+    <p>Category: {{ openedProduct.category.name }}</p>
   </div>
 </template>
 
@@ -17,15 +21,20 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { computed, ComputedRef } from "vue";
+import { computed } from "vue";
 import { productsStore } from "../stores/products";
 import { useRoute } from "vue-router";
 
 const store = productsStore();
 
 const route = useRoute();
-console.log(typeof route.params.id);
-const openedProduct: ComputedRef = computed(() => {
-  return store.products.find((item) => item.id == route.params.id);
+const openedProduct = computed(() => {
+  return store.products.find((item) => item.id === Number(route.params.id));
 });
 </script>
+
+<style scoped>
+.product-image {
+  width: 90%;
+}
+</style>

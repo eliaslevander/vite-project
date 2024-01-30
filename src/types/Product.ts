@@ -1,13 +1,17 @@
 interface Product {
-    id: string;
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    thumbnail: string;
-    rating: {
-      rate: number;
-      count: number;
-    };
-  }
-export default Product
+  category: {
+    creationAt: string;
+    id: number;
+    image: string;
+    name: string;
+    updatedAt: string;
+  };
+  creationAt: string;
+  description: string;
+  id: number;
+  images: string[];
+  price: number;
+  title: string;
+  updatedAt: string;
+}
+export default Product;

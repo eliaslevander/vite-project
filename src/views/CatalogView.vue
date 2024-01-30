@@ -1,7 +1,7 @@
 <template>
   <h1>Catalog</h1>
   <ProductComponent />
-  <CryptoList />
+  <!-- <CryptoList /> -->
 </template>
 
 <script lang="ts">
@@ -13,7 +13,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import ProductComponent from "../components/ProductComponent.vue";
-import CryptoList from "../components/CryptoList.vue";
+// import CryptoList from "../components/CryptoList.vue";
 import { onMounted } from "vue";
 import { productsStore } from "../stores/products";
 
