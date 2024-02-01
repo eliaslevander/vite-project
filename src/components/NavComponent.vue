@@ -33,7 +33,7 @@
             hide-details
             prepend-inner-icon="mdi-magnify"
           >
-          </v-text-field>
+          </v-text-field> 
         </div>
         <v-btn @click="isSearching = false" icon elevation="2">
           <v-icon size="x-large">mdi-close</v-icon>
@@ -46,12 +46,11 @@
         <li>asdf</li>
         <li>asdf</li>
         <li>asdf</li>
-
         <li>asdf</li>
       </ul>
     </div>
 
-    <v-navigation-drawer v-model="drawer" app :width="300">
+    <v-navigation-drawer touchless v-model="drawer" app :width="300">
       <div id="menu-top">
         <p id="menu-text">Meny</p>
         <v-btn @click="drawer = !drawer" icon elevation="2">

@@ -7,14 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Navbar: typeof import('./src/components/Navbar.vue')['default']
     NavComponent: typeof import('./src/components/NavComponent.vue')['default']
-    Navigation: typeof import('./src/components/Navigation.vue')['default']
     OpenedProduct: typeof import('./src/components/OpenedProduct.vue')['default']
     ParallaxComponent: typeof import('./src/components/ParallaxComponent.vue')['default']
     ProductComponent: typeof import('./src/components/ProductComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TestComp: typeof import('./src/components/TestComp.vue')['default']
   }
 }

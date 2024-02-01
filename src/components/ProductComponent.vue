@@ -7,9 +7,11 @@
       @click="openProduct(product.id)"
     >
       <img class="product-image" :src="product.images[0]" alt="product image" />
-      <h2 class="product-title">{{ product.title }}</h2>
-      <p>Price: ${{ product.price }}</p>
-      <p>Category: {{ product.category.name }}</p>
+      <div class="card-info">
+        <h2 class="product-title">{{ product.title }}</h2>
+        <p>Price: ${{ product.price }}</p>
+        <p>Category: {{ product.category.name }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +25,6 @@ import { useRouter } from "vue-router";
 // assign productsStore (as a function) to a variable
 const store = productsStore();
 const router = useRouter();
-
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
 };
@@ -37,14 +38,24 @@ onMounted(async () => {
 #product-container {
   /* width: 100%; */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
   gap: 8px;
   padding: 8px;
 }
 
 .card {
   cursor: pointer;
-  background-color: #eee;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.card:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.44) 0px 15px 12px;
+  transition: 0.1s ease-in;
+}
+
+.card-info {
+  padding: 8px;
 }
 .product-image {
   width: 100%;

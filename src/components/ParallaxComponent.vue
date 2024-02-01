@@ -1,6 +1,6 @@
 <template>
   <div id="hero">
-    <v-parallax height="400" src="/shoes.jpg"> </v-parallax>
+    <v-parallax height="300" src="/shoes.jpg"> </v-parallax>
   </div>
 </template>
 

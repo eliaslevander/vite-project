@@ -16,7 +16,6 @@ export const productsStore = defineStore("products", {
       try {
         const response = await axios.get("./db.json");
         this.products = response.data;
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
