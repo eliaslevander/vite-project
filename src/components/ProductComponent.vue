@@ -1,17 +1,13 @@
 <template>
-  <v-btn> Add to cart </v-btn>
-  <v-icon icon="mdi-home" />
-  <v-pagination :length="3"> </v-pagination>
   <div id="product-container">
     <div
-      class="product"
+      class="card"
       v-for="product in store.products"
       :key="product.id"
       @click="openProduct(product.id)"
     >
       <img class="product-image" :src="product.images[0]" alt="product image" />
-      <h2>{{ product.title }}</h2>
-      <p>Description: {{ product.description }}</p>
+      <h2 class="product-title">{{ product.title }}</h2>
       <p>Price: ${{ product.price }}</p>
       <p>Category: {{ product.category.name }}</p>
     </div>
@@ -38,10 +34,26 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.product {
+#product-container {
+  /* width: 100%; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
+  gap: 8px;
+  padding: 8px;
+}
+
+.card {
   cursor: pointer;
+  background-color: #eee;
 }
 .product-image {
-  width: 300px;
+  width: 100%;
+}
+
+.product-title {
+  font-size: 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

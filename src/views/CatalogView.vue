@@ -1,5 +1,4 @@
 <template>
-  <h1>Catalog</h1>
   <ProductComponent />
   <!-- <CryptoList /> -->
 </template>

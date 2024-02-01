@@ -14,9 +14,7 @@ export const productsStore = defineStore("products", {
   actions: {
     async fetchData() {
       try {
-        const response = await axios.get(
-          "https://api.escuelajs.co/api/v1/products"
-        );
+        const response = await axios.get("./db.json");
         this.products = response.data;
         console.log(response.data);
       } catch (error) {
