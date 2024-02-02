@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { productsStore } from "./stores/products";
 import NavComponent from "./components/NavComponent.vue";
-
-const productStore = productsStore();
-
-onMounted(() => {
-  productStore.fetchData();
-});
 </script>
 
 <template>

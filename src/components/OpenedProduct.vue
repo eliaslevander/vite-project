@@ -5,7 +5,7 @@
       :src="openedProduct.images[0]"
       alt="product image"
     />
-    <h2>Brand: {{ openedProduct.title }}</h2>
+    <h2>{{ openedProduct.title }}</h2>
     <p>Description: {{ openedProduct.description }}</p>
     <p>Price: ${{ openedProduct.price }}</p>
     <p>Category: {{ openedProduct.category.name }}</p>
