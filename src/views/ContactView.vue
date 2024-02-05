@@ -1,7 +1,5 @@
 <template>
-  <ProductComponent />
+  <h1>hej</h1>
 </template>
 
-<script setup lang="ts">
-import ProductComponent from "../components/ProductComponent.vue";
-</script>
+<script setup lang="ts"></script>

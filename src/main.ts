@@ -14,8 +14,6 @@ import * as directives from "vuetify/directives";
 const pinia = createPinia();
 const app = createApp(App);
 
-
-
 const vuetify = createVuetify({
   components,
   directives,
@@ -28,7 +26,7 @@ const vuetify = createVuetify({
   },
   defaults: {
     VAppBar: {
-      style: 'height: 64px;'
+
     }
   }
 });

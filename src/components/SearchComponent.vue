@@ -1,14 +1,11 @@
 <template>
   <h1>Showing results for "{{ route.params.string }}"</h1>
+  <ProductComponent :product-query="route.params.string" />
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { productsStore } from "../stores/products";
+import ProductComponent from "./ProductComponent.vue";
 
 import { useRoute } from "vue-router";
 const route = useRoute();
-
-const store = productsStore();
-const searchResults = ref(store.products);
 </script>

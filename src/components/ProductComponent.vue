@@ -1,8 +1,9 @@
 <template>
-  <div id="product-container">
+  <div v-if="store.loading">Loading...</div>
+  <div id="product-container" v-else>
     <div
       class="card"
-      v-for="product in store.products"
+      v-for="product in products"
       :key="product.id"
       @click="openProduct(product.id)"
     >
@@ -17,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onBeforeUpdate, onBeforeMount, ref } from "vue";
 //import productsStore
 import { productsStore } from "../stores/products.ts";
 import { useRouter } from "vue-router";
@@ -25,12 +26,51 @@ import { useRouter } from "vue-router";
 // assign productsStore (as a function) to a variable
 const store = productsStore();
 const router = useRouter();
+
+const products = ref(store.products);
+
+onBeforeMount(() => {
+  const query = props.productQuery;
+  if (query !== null) {
+    products.value = store.products.filter(
+      (product) =>
+        product.title.toLowerCase().includes(query!.toLowerCase()) ||
+        product.category.name.toLowerCase().includes(query!.toLowerCase())
+    );
+    console.log(products.value.length);
+  } else {
+    products.value = [];
+  }
+  sendResultsLength();
+});
+
+onBeforeUpdate(() => {
+  const query = props.productQuery;
+  if (query !== null) {
+    products.value = store.products.filter(
+      (product) =>
+        product.title.toLowerCase().includes(query!.toLowerCase()) ||
+        product.category.name.toLowerCase().includes(query!.toLowerCase())
+    );
+    console.log(products.value.length);
+  } else {
+    products.value = [];
+  }
+  sendResultsLength();
+});
+
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
 };
 
-onMounted(async () => {
-  await store.fetchData();
+const emit = defineEmits(["results-length"]);
+
+const sendResultsLength = () => {
+  emit("results-length", products.value.length);
+};
+
+const props = defineProps({
+  productQuery: String,
 });
 </script>
 

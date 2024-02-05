@@ -39,7 +39,12 @@
         </div>
         <v-btn
           @click="
-            (isSearching = false), (searchResults = []), (searchField = '')
+            // Close search menu
+            (isSearching = false),
+              // Clear search results array
+              (searchResults = []),
+              // Clear search field
+              (searchField = '')
           "
           icon
           elevation="2"
@@ -54,8 +59,11 @@
         id="search-for-text"
         @click="
           search(searchField),
+            // Close search menu
             (isSearching = false),
+            // Clear search results array
             (searchResults = []),
+            // Clear search field
             (searchField = '')
         "
       >
@@ -78,8 +86,11 @@
             class="popular-search"
             @click="
               search('Jeans'),
+                // Close search menu
                 (isSearching = false),
+                // Clear search results array
                 (searchResults = []),
+                // Clear search field
                 (searchField = '')
             "
           >
@@ -150,6 +161,7 @@
       <v-divider></v-divider>
       <ul>
         <li
+          class="searched-items-list"
           v-for="product in searchResults"
           :key="product.id"
           @click="
@@ -159,7 +171,11 @@
               (searchField = '')
           "
         >
-          {{ product.title }}
+          <v-icon size="x-large">mdi-magnify</v-icon>
+          <p>
+            <strong>{{ product.title }}</strong>
+          </p>
+          <v-icon size="x-large">mdi-chevron-right</v-icon>
         </li>
       </ul>
     </div>
@@ -194,7 +210,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { productsStore } from "../stores/products";
-
 import router from "../router";
 
 const store = productsStore();
@@ -202,22 +217,31 @@ const store = productsStore();
 const searchField = ref<string>("");
 const searchResults = ref(store.products);
 
+// watch for changes in the searchfield, update searchResults array upon newString
+
 watch(searchField, (newString) => {
-  console.log(newString);
+  // Run the logic only if the input isn't an empty string
   if (newString !== "") {
+    // use .value to reach the wrapped data from the ref
     searchResults.value = store.products.filter(
       (product) =>
+        // Filter either by product name OR by category name, .toLowerCase() allows user to search by lower case. T-shirt !== t-shirt => T-shirt === t-shirt
         product.title.toLowerCase().includes(newString.toLowerCase()) ||
         product.category.name.toLowerCase().includes(newString.toLowerCase())
     );
   } else {
+    // If newString doesn't match any of the products/categories then show no items (empty array)
     searchResults.value = [];
   }
 });
 
+// Push to a new page with the string of searchfield as a parameter
+
 function search(string: string) {
   router.push({ name: "SearchView", params: { string } });
 }
+
+// Push to a new page by pressing one of the listed searrchresults using product.id as a parameter
 
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
@@ -277,6 +301,22 @@ export default {
 #search-for-text p {
   flex-grow: 1;
   margin-left: 8px;
+}
+
+.searched-items-list {
+  font-size: 1rem;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.searched-items-list p {
+  flex-grow: 1;
+  margin-left: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 #search-overlay {

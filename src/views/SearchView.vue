@@ -1,7 +1,26 @@
 <template>
-  <SearchComponent />
+  <h3>Showing {{ resultsText }} for "{{ route.params.string }}"</h3>
+  <ProductComponent
+    @results-length="valueFromChild"
+    :product-query="route.params.string"
+  />
 </template>
 
 <script setup lang="ts">
-import SearchComponent from "../components/SearchComponent.vue";
+import ProductComponent from "../components/ProductComponent.vue";
+import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
+
+const receivedValue = ref(0);
+
+const valueFromChild = (value: number) => {
+  receivedValue.value = value;
+};
+
+const resultsText = computed(() => {
+  return `${receivedValue.value} ${
+    receivedValue.value === 1 ? "result" : "results"
+  }`;
+});
 </script>
