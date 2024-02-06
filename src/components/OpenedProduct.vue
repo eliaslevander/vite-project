@@ -14,7 +14,7 @@
     <p>Description: {{ openedProduct.description }}</p>
     <p>Price: ${{ openedProduct.price }}</p>
     <p>Category: {{ openedProduct.category.name }}</p>
-    <v-btn>Add to cart</v-btn>
+    <v-btn @click="addToCart(openedProduct)">Add to cart</v-btn>
   </div>
 </template>
 
@@ -33,14 +33,21 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { computed } from "vue";
 import { productsStore } from "../stores/products";
+import { cartStore } from "../stores/cart";
 import { useRoute } from "vue-router";
+import Product from "../types/Product.ts";
 
 const store = productsStore();
+const cart = cartStore();
 
 const route = useRoute();
 const openedProduct = computed(() => {
   return store.products.find((item) => item.id === Number(route.params.id));
 });
+
+const addToCart = (item: Product) => {
+  cart.items.push(item);
+};
 </script>
 
 <style scoped>

@@ -12,7 +12,7 @@
       <v-btn icon>
         <v-icon>mdi-account</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn icon @click="goToCart">
         <v-icon>mdi-cart</v-icon>
       </v-btn>
     </v-toolbar>
@@ -245,6 +245,10 @@ function search(string: string) {
 
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
+};
+
+const goToCart = () => {
+  router.push("CartView");
 };
 </script>
 
