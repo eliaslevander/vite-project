@@ -24,3 +24,13 @@ const resultsText = computed(() => {
   }`;
 });
 </script>
+
+<style scoped>
+ul {
+  overflow: auto;
+}
+
+.v-application__wrap {
+  overflow: auto;
+}
+</style>

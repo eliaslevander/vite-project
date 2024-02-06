@@ -1,11 +1,27 @@
 <template>
-  <h1>{{ totalPrice }}</h1>
+  <div class="product" v-for="item in cart.items">
+    <img :src="item.images[0]" alt="product image" />
+    <h3>{{ item.title }}</h3>
+    <h4>{{ item.price }}</h4>
+  </div>
+
+  <h1>Total: ${{ totalPrice }}</h1>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { cartStore } from "../stores/cart";
+
 const cart = cartStore();
 
-const totalPrice = computed(() => cart.getCartSum);
+const totalPrice = cart.getCartSum;
 </script>
+
+<style scoped>
+.product img {
+  width: 100px;
+}
+
+.v-application__wrap {
+  overflow: auto;
+}
+</style>

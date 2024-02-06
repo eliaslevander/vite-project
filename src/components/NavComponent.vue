@@ -159,9 +159,9 @@
       </div>
 
       <v-divider></v-divider>
-      <ul>
+      <ul id="searched-items-list">
         <li
-          class="searched-items-list"
+          class="searched-items-list-item"
           v-for="product in searchResults"
           :key="product.id"
           @click="
@@ -248,7 +248,7 @@ const openProduct = (id: number) => {
 };
 
 const goToCart = () => {
-  router.push("CartView");
+  router.push({ path: "/cart", name: "CartView" });
 };
 </script>
 
@@ -307,7 +307,11 @@ export default {
   margin-left: 8px;
 }
 
-.searched-items-list {
+#searched-items-list {
+  height: 50vh;
+}
+
+.searched-items-list-item {
   font-size: 1rem;
   padding: 8px;
   display: flex;
@@ -315,7 +319,7 @@ export default {
   border-bottom: 1px solid #ccc;
 }
 
-.searched-items-list p {
+.searched-items-list-item p {
   flex-grow: 1;
   margin-left: 8px;
   overflow: hidden;
@@ -333,6 +337,7 @@ export default {
   bottom: 0;
   background-color: #fff;
   z-index: 2;
+  overflow: auto;
 }
 
 #v-toolbar {
