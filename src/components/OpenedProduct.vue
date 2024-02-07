@@ -41,12 +41,13 @@ const store = productsStore();
 const cart = cartStore();
 
 const route = useRoute();
-const openedProduct = computed(() => {
-  return store.products.find((item) => item.id === Number(route.params.id));
+
+const openedProduct = computed<Product>(() => {
+  return store.products.find((item) => item.id === Number(route.params.id))!;
 });
 
-const addToCart = (item: Product) => {
-  cart.items.push(item);
+const addToCart = () => {
+  cart.addToCart(openedProduct.value);
 };
 </script>
 

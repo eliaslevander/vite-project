@@ -308,7 +308,8 @@ export default {
 }
 
 #searched-items-list {
-  height: 50vh;
+  height: 100vh;
+  overflow: auto;
 }
 
 .searched-items-list-item {
@@ -337,7 +338,6 @@ export default {
   bottom: 0;
   background-color: #fff;
   z-index: 2;
-  overflow: auto;
 }
 
 #v-toolbar {

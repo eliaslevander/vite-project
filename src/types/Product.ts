@@ -13,5 +13,6 @@ interface Product {
   price: number;
   title: string;
   updatedAt: string;
+  quantity: number
 }
 export default Product;

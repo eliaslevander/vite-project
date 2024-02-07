@@ -11,6 +11,21 @@ export const cartStore = defineStore("cart", {
       items: [],
     };
   },
+  actions: {
+    addToCart(item: Product) {
+      // console.log(item.id)
+      const idToFind = item.id
+      const exists = this.items.find((item) => item.id === idToFind)
+      if (!exists || this.items.length === 0) {
+        this.items.push({...item, quantity: 1})
+      } else {
+        // ??????
+        console.log("in cart")
+      }
+
+      // console.log(this.items)
+    }
+  },
 
   getters: {
     countItems(): number {
@@ -20,7 +35,6 @@ export const cartStore = defineStore("cart", {
       const totalPrice = this.items.reduce((acc, item) => {
         return (acc += item.price);
       }, 0);
-      console.log(totalPrice);
       return totalPrice;
     },
   }
