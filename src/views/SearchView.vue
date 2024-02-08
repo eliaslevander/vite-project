@@ -1,5 +1,7 @@
 <template>
-  <h3>Showing {{ resultsText }} for "{{ route.params.string }}"</h3>
+  <h3 id="results">
+    Showing {{ resultsText }} for "{{ route.params.string }}"
+  </h3>
   <ProductComponent
     @results-length="valueFromChild"
     :product-query="route.params.string"
@@ -26,6 +28,10 @@ const resultsText = computed(() => {
 </script>
 
 <style scoped>
+#results {
+  margin-left: 8px;
+}
+
 ul {
   overflow: auto;
 }

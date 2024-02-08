@@ -14,7 +14,7 @@
     <p>Description: {{ openedProduct.description }}</p>
     <p>Price: ${{ openedProduct.price }}</p>
     <p>Category: {{ openedProduct.category.name }}</p>
-    <v-btn @click="addToCart(openedProduct)">Add to cart</v-btn>
+    <v-btn @click="addToCart">Add to cart</v-btn>
   </div>
 </template>
 

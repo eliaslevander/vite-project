@@ -181,7 +181,7 @@
     </div>
     <v-navigation-drawer touchless v-model="drawer" app :width="300">
       <div id="menu-top">
-        <p id="menu-text">Meny</p>
+        <p id="menu-text">Menu</p>
         <v-btn @click="drawer = !drawer" icon elevation="2">
           <v-icon size="x-large">mdi-close</v-icon>
         </v-btn>
@@ -190,16 +190,16 @@
       <nav>
         <ul>
           <li>
-            <RouterLink to="/">Hem</RouterLink>
+            <RouterLink to="/">Home</RouterLink>
           </li>
           <li>
-            <RouterLink to="/about">Om</RouterLink>
+            <RouterLink to="/about">About</RouterLink>
           </li>
           <li>
-            <RouterLink to="/contact">Kontakt</RouterLink>
+            <RouterLink to="/contact">Contact</RouterLink>
           </li>
           <li>
-            <RouterLink to="/catalog">Katalog</RouterLink>
+            <RouterLink to="/catalog">Products</RouterLink>
           </li>
         </ul>
       </nav>

@@ -8,34 +8,70 @@ interface CartState {
 export const cartStore = defineStore("cart", {
   state: (): CartState => {
     return {
-      items: [],
+      //return localStorage if it exists, otherwise return empty array
+      items: JSON.parse(localStorage.getItem("items")) || [],
     };
   },
   actions: {
+    saveItems() {
+      //saves current state to localStorage
+      localStorage.setItem("items", JSON.stringify(this.items));
+    },
     addToCart(item: Product) {
-      // console.log(item.id)
-      const idToFind = item.id
-      const exists = this.items.find((item) => item.id === idToFind)
-      if (!exists || this.items.length === 0) {
-        this.items.push({...item, quantity: 1})
+      //target the item with its id
+      const idToFind = item.id;
+      //check if it exists in array with find
+      const exists = this.items.find((item) => item.id === idToFind);
+      //find the index
+      const index = this.items.findIndex((item) => item.id === idToFind);
+      //if not in array, push using spread operator and add quantity key with value 1
+      if (!exists) {
+        this.items.push({ ...item, quantity: 1 });
       } else {
-        // ??????
-        console.log("in cart")
+        //if in array, increase quantity by one
+        this.items[index].quantity++;
+      }
+      //push to localStorage
+      this.saveItems();
+    },
+    removeFromCart(item: Product, method: string) {
+      //Uses two methods, decrease and remove
+
+      if (method === "decrease") {
+        //target the item with its id
+        const idToRemove = item.id;
+        //use find to find it
+        const itemToRemove = this.items.find((item) => item.id === idToRemove);
+        //decrease quantity by one
+        itemToRemove!.quantity--;
+        //push to localStorage
       }
 
-      // console.log(this.items)
-    }
+      if (method === "remove") {
+        //target the item with its id
+        const idToRemove = item.id;
+        //use find to find it
+        this.items = this.items.filter((item) => item.id !== idToRemove);
+      }
+
+      this.saveItems();
+    },
   },
 
   getters: {
     countItems(): number {
-      return this.items.length;
+      //use reduce to return and stack the value of the key quantity on every item in array
+      const totalItemsInCart = this.items.reduce((acc, item) => {
+        return (acc += item.quantity);
+      }, 0);
+      return totalItemsInCart;
     },
     getCartSum(): number {
+      //use above logic but multiply with item.price
       const totalPrice = this.items.reduce((acc, item) => {
-        return (acc += item.price);
+        return (acc += item.price * item.quantity);
       }, 0);
       return totalPrice;
     },
-  }
+  },
 });

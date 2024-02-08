@@ -1,27 +1,50 @@
 <template>
   <div id="in-cart-box">
-    <h3>Cart ({{ totalItemsText }})</h3>
+    <v-btn id="in-cart-left" @click="router.go(-1)" icon flat>
+      <v-icon size="40">mdi-chevron-left</v-icon>
+    </v-btn>
+    <h2 id="in-cart-center">Cart ({{ totalItems }})</h2>
+    <div></div>
   </div>
+  <v-divider></v-divider>
+
   <div class="product" v-for="item in cart.items" :key="item.id">
     <div class="left-container">
-      <img :src="item.images[0]" alt="product image" />
+      <img
+        @click="openProduct(item.id)"
+        :src="item.images[0]"
+        alt="product image"
+      />
     </div>
     <div class="center-container">
-      <p class="item-title">{{ item.title }}</p>
-      <div>
-        <span>Quantity: </span>
-        <v-btn @click="decreaseItemCount(item.id)" flat icon>
-          <v-icon>mdi-minus</v-icon>
-        </v-btn>
-        <span>1</span>
-        <v-btn @click="increaseItemCount(item.id)" flat icon>
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+      <p @click="openProduct(item.id)" class="item-title">{{ item.title }}</p>
+      <div class="quantity-container">
+        <p>Quantity:</p>
+        <div class="quantity-controls">
+          <v-btn
+            :disabled="item.quantity === 1"
+            @click="cart.removeFromCart(item, 'decrease')"
+            flat
+            icon
+            size="x-small"
+          >
+            <v-icon size="25">mdi-minus</v-icon>
+          </v-btn>
+          <span>{{ item.quantity }}</span>
+          <v-btn @click="cart.addToCart(item)" flat icon size="x-small">
+            <v-icon size="25">mdi-plus</v-icon>
+          </v-btn>
+        </div>
       </div>
       <p class="item-price">${{ item.price }}</p>
+      <p class="item-price-total">${{ item.price * item.quantity }}</p>
     </div>
     <div class="right-container">
-      <v-btn flat icon>
+      <v-btn
+        @click="cart.removeFromCart(item, 'remove'), (dialog = true)"
+        flat
+        icon
+      >
         <v-icon>mdi-trash-can</v-icon>
       </v-btn>
       <v-btn flat icon>
@@ -30,36 +53,85 @@
     </div>
   </div>
 
-  <h1>Total: ${{ totalPrice }}</h1>
+  <div id="total-price-container">
+    <h1>Total: ${{ totalPrice }}</h1>
+  </div>
+
+  <!-- <template>
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent width="auto">
+        <template v-slot:activator="{ props }">
+          <v-btn color="primary" v-bind="props"> Open Dialog </v-btn>
+        </template>
+        <v-card>
+          <v-card-title class="text-h5">
+            Use Google's location service?
+          </v-card-title>
+          <v-card-text
+            >Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are
+            running.</v-card-text
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green-darken-1"
+              variant="text"
+              @click="dialog = false"
+            >
+              Disagree
+            </v-btn>
+            <v-btn
+              color="green-darken-1"
+              variant="text"
+              @click="dialog = false, cart.removeFromCart(item, 'remove')"
+            >
+              Agree
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+  </template> -->
 </template>
 
 <script setup lang="ts">
 import { cartStore } from "../stores/cart";
-import { computed } from "vue";
-// import { useRouter } from "vue-router";
+import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const cart = cartStore();
-// const router = useRouter();
+const router = useRouter();
 
-const totalPrice = cart.getCartSum;
-const totalItems = cart.countItems;
+const dialog = ref(false);
 
-const totalItemsText = computed(() => {
-  return `${totalItems} ${totalItems === 1 ? "item" : "items"}`;
+const totalItems = computed(() => {
+  return `${cart.countItems} ${cart.countItems === 1 ? "item" : "items"}`;
 });
 
-// console.log(nonDuplicateCart.value);
+const totalPrice = computed(() => {
+  return cart.getCartSum;
+});
 
-const increaseItemCount = (id: number) => {};
-
-// @click="openProduct(item.id)"
-
-// const openProduct = (id: number) => {
-//   router.push({ name: "OpenedProduct", params: { id } });
-// };
+const openProduct = (id: number) => {
+  router.push({ name: "OpenedProduct", params: { id } });
+};
 </script>
 
 <style scoped>
+#in-cart-box {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  margin-bottom: 8px;
+}
+
+#in-cart-left {
+  margin-left: 8px;
+}
+#in-cart-center {
+  margin: auto;
+}
+
 .product {
   border-bottom: 1px solid #000;
   display: flex;
@@ -67,8 +139,8 @@ const increaseItemCount = (id: number) => {};
 }
 
 .left-container {
-  height: 120px;
-  width: 120px;
+  height: 130px;
+  width: 130px;
   display: flex;
 }
 
@@ -85,13 +157,28 @@ const increaseItemCount = (id: number) => {};
 
 .item-title {
   font-weight: bold;
+  min-height: 48px;
 }
 
-.select {
+.quantity-container {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-controls {
+  margin-left: 8px;
   width: 100px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .item-price {
+  color: #555;
+}
+
+.item-price-total {
+  font-weight: bold;
 }
 
 .v-application__wrap {
