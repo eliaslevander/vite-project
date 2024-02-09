@@ -1,5 +1,8 @@
 <template>
   <ParallaxComponent />
+  <h2>Clothes</h2>
+  <ProductComponent class="product-component" product-query="Clothes" />
+  <v-divider></v-divider>
   <h2>Shoes</h2>
   <ProductComponent class="product-component" product-query="Shoes" />
   <v-divider></v-divider>

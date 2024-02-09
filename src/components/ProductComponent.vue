@@ -9,6 +9,7 @@
           alt="product image"
           @click="openProduct(product.id)"
         />
+        <!-- <div class="button-backside">a</div> -->
         <FavButton class="fav-button" :itemId="product.id" />
       </div>
 
@@ -98,11 +99,11 @@ const props = defineProps({
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-.card:hover {
+/* .card:hover {
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     rgba(0, 0, 0, 0.44) 0px 15px 12px;
   transition: 0.1s ease-in;
-}
+} */
 
 .card-info {
   padding: 8px;
@@ -113,11 +114,25 @@ const props = defineProps({
   position: relative;
 }
 
+.button-backside {
+  position: absolute;
+  z-index: 1;
+  top: 26px;
+  right: -2px;
+  font-size: 16px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #eee;
+  z-index: 0;
+}
+
 .fav-button {
   position: absolute;
   z-index: 1;
   top: 30px;
-  right: 0;
+  right: -2px;
   font-size: 16px;
   border: none;
   border-radius: 10px 0 0 10px;
