@@ -2,8 +2,8 @@
   <nav>
     <v-toolbar id="v-toolbar" scroll-behavior="hide" flat app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title> brandz </v-toolbar-title>
-      <v-btn icon>
+      <v-toolbar-title><RouterLink to="/">brandz</RouterLink></v-toolbar-title>
+      <v-btn icon @click="goToFavorites">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
       <v-btn icon @click="isSearching = true">
@@ -189,18 +189,22 @@
       <v-divider></v-divider>
       <nav>
         <ul>
-          <li>
+          <li class="link">
             <RouterLink to="/">Home</RouterLink>
           </li>
+          <v-divider></v-divider>
           <li>
             <RouterLink to="/about">About</RouterLink>
           </li>
+          <v-divider></v-divider>
           <li>
             <RouterLink to="/contact">Contact</RouterLink>
           </li>
+          <v-divider></v-divider>
           <li>
-            <RouterLink to="/catalog">Products</RouterLink>
+            <RouterLink to="/catalog">Categories</RouterLink>
           </li>
+          <v-divider></v-divider>
         </ul>
       </nav>
     </v-navigation-drawer>
@@ -245,6 +249,10 @@ function search(string: string) {
 
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
+};
+
+const goToFavorites = () => {
+  router.push({ path: "/favorites", name: "FavoriteView" });
 };
 
 const goToCart = () => {

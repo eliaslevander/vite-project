@@ -4,21 +4,22 @@ import Product from "../types/Product.ts";
 
 interface ProductsState {
   products: Product[];
+
   loading: boolean;
 }
 
 export const productsStore = defineStore("products", {
   state: (): ProductsState => ({
     products: [],
+
     loading: true,
   }),
 
   actions: {
     async fetchData() {
       try {
-        //./db.json
-        //https://api.escuelajs.co/api/v1/products
         const response = await axios.get("./db.json");
+        //  this.products = response.data.map((item: object) => item = {...item, isFav: false})
         this.products = response.data;
         this.loading = false;
         console.log(this.loading);

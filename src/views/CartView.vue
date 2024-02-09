@@ -17,7 +17,9 @@
       />
     </div>
     <div class="center-container">
-      <p @click="openProduct(item.id)" class="item-title">{{ item.title }}</p>
+      <div class="title-container">
+        <p @click="openProduct(item.id)" class="item-title">{{ item.title }}</p>
+      </div>
       <div class="quantity-container">
         <p>Quantity:</p>
         <div class="quantity-controls">
@@ -155,9 +157,12 @@ const openProduct = (id: number) => {
   justify-content: space-evenly;
 }
 
+.title-container {
+  min-height: 48px;
+}
+
 .item-title {
   font-weight: bold;
-  min-height: 48px;
 }
 
 .quantity-container {

@@ -10,11 +10,45 @@
         <img :src="image" alt="product image" />
       </SwiperSlide>
     </Swiper>
-    <h2>{{ openedProduct.title }}</h2>
-    <p>Description: {{ openedProduct.description }}</p>
-    <p>Price: ${{ openedProduct.price }}</p>
-    <p>Category: {{ openedProduct.category.name }}</p>
-    <v-btn @click="addToCart">Add to cart</v-btn>
+
+    <div id="opened-product-container">
+      <h2 id="opened-product-title">{{ openedProduct.title }}</h2>
+      <p id="opened-product-price">
+        ${{ openedProduct.price }}<span id="vat"> Incl. vat</span>
+      </p>
+      <p id="opened-product-category">
+        Category: {{ openedProduct.category.name }}
+      </p>
+      <FavButton class="fav-button" :itemId="openedProduct.id" />
+      <v-btn
+        flat
+        rounded="0"
+        @click="descriptionOpened = !descriptionOpened"
+        id="description-dropdown"
+      >
+        Description
+        <v-icon style="" v-if="!descriptionOpened" size="x-large"
+          >mdi-chevron-down</v-icon
+        >
+        <v-icon v-else size="x-large">mdi-chevron-up</v-icon>
+      </v-btn>
+      <p
+        id="opened-product-description"
+        :style="descriptionOpened ? 'display: block' : 'display: none'"
+      >
+        {{ openedProduct.description }}
+      </p>
+      <v-btn
+        id="add-button"
+        rounded="0"
+        flat
+        density="default"
+        color="black"
+        block
+        @click="addToCart"
+        >Add to cart</v-btn
+      >
+    </div>
   </div>
 </template>
 
@@ -31,11 +65,12 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { productsStore } from "../stores/products";
 import { cartStore } from "../stores/cart";
 import { useRoute } from "vue-router";
 import Product from "../types/Product.ts";
+import FavButton from "../components/FavButton.vue";
 
 const store = productsStore();
 const cart = cartStore();
@@ -49,9 +84,43 @@ const openedProduct = computed<Product>(() => {
 const addToCart = () => {
   cart.addToCart(openedProduct.value);
 };
+
+const descriptionOpened = ref(false);
 </script>
 
 <style scoped>
+#opened-product-container {
+  padding: 16px;
+}
+
+#opened-product-title {
+  font-weight: bold;
+}
+
+#opened-product-price {
+  font-size: 1.5rem;
+}
+
+#vat {
+  font-size: 1rem;
+  color: #444;
+}
+
+#description-dropdown {
+  margin-top: 8px;
+  height: 36px;
+  width: 100%;
+  border: 1px solid #aaa;
+}
+
+#opened-product-description {
+  padding: 8px;
+}
+
+#add-button {
+  margin-top: 8px;
+}
+
 .swiper {
   width: 100%;
 }

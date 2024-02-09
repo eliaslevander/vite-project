@@ -13,6 +13,7 @@ interface Product {
   price: number;
   title: string;
   updatedAt: string;
-  quantity: number
+  quantity: number;
+  isFav: boolean;
 }
 export default Product;

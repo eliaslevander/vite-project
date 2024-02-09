@@ -6,6 +6,7 @@ import HomeView from "./views/HomeView.vue";
 import CatalogView from "./views/CatalogView.vue";
 import CartView from "./views/CartView.vue";
 import SearchView from "./views/SearchView.vue";
+import FavoriteView from "./views/FavoriteView.vue";
 import OpenedProduct from "./components/OpenedProduct.vue";
 
 export default createRouter({
@@ -27,6 +28,11 @@ export default createRouter({
       component: CartView,
       path: "/cart",
       name: "CartView",
+    },
+    {
+      component: FavoriteView,
+      path: "/favorites",
+      name: "FavoriteView",
     },
     {
       component: CatalogView,

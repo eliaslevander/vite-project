@@ -1,17 +1,21 @@
 <template>
   <div v-if="store.loading">Loading...</div>
   <div id="product-container" v-else>
-    <div
-      class="card"
-      v-for="product in products"
-      :key="product.id"
-      @click="openProduct(product.id)"
-    >
-      <img class="product-image" :src="product.images[0]" alt="product image" />
-      <div class="card-info">
+    <div class="card" v-for="product in products" :key="product.id">
+      <div class="image-container">
+        <img
+          class="product-image"
+          :src="product.images[0]"
+          alt="product image"
+          @click="openProduct(product.id)"
+        />
+        <FavButton class="fav-button" :itemId="product.id" />
+      </div>
+
+      <div class="card-info" @click="openProduct(product.id)">
         <h2 class="product-title">{{ product.title }}</h2>
-        <p>Price: ${{ product.price }}</p>
-        <p>Category: {{ product.category.name }}</p>
+        <p class="product-price">${{ product.price }}</p>
+        <p class="product-category">Category: {{ product.category.name }}</p>
       </div>
     </div>
   </div>
@@ -21,13 +25,19 @@
 import { onBeforeUpdate, onBeforeMount, ref } from "vue";
 //import productsStore
 import { productsStore } from "../stores/products.ts";
+import { favoriteStore } from "../stores/favorite.ts";
 import { useRouter } from "vue-router";
+import FavButton from "../components/FavButton.vue";
 
 // assign productsStore (as a function) to a variable
 const store = productsStore();
+const favsStore = favoriteStore();
 const router = useRouter();
 
 const products = ref(store.products);
+const favorites = ref(favsStore.favorites);
+
+console.log(favorites.value);
 
 onBeforeMount(() => {
   const query = props.productQuery;
@@ -97,14 +107,39 @@ const props = defineProps({
 .card-info {
   padding: 8px;
 }
+
+.image-container {
+  width: 100%;
+  position: relative;
+}
+
+.fav-button {
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  right: 0;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  cursor: pointer;
+}
 .product-image {
   width: 100%;
 }
 
 .product-title {
-  font-size: 1rem;
+  font-size: 0.75rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.product-price {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.product-category {
+  font-size: 0.75rem;
 }
 </style>

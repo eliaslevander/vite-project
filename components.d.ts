@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    FavButton: typeof import('./src/components/FavButton.vue')['default']
     NavComponent: typeof import('./src/components/NavComponent.vue')['default']
     OpenedProduct: typeof import('./src/components/OpenedProduct.vue')['default']
     ParallaxComponent: typeof import('./src/components/ParallaxComponent.vue')['default']
