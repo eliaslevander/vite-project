@@ -1,5 +1,5 @@
 <template>
-  <ProductComponent product-query="Electronics" />
+  <ProductComponent />
   <!-- <CryptoList /> -->
 </template>
 

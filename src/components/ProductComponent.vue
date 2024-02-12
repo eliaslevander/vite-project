@@ -11,7 +11,23 @@
         />
         <div class="button-backside"></div>
 
-        <FavButton class="fav-button" :itemId="product.id" />
+        <!-- <FavButton class="fav-button" :itemId="product.id" /> -->
+        <v-btn
+          @click="favsStore.manageFavorite(product.id)"
+          flat
+          icon
+          :ripple="false"
+          class="fav-button"
+          size="small"
+        >
+          <v-icon
+            color="red"
+            v-if="product.id && favsStore.favorites.includes(product.id)"
+            size="25"
+            >mdi-heart</v-icon
+          >
+          <v-icon v-else size="25">mdi-heart-outline</v-icon>
+        </v-btn>
       </div>
 
       <div class="card-info" @click="openProduct(product.id)">
@@ -24,21 +40,30 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUpdate, onBeforeMount, ref } from "vue";
+import { onBeforeUpdate, onBeforeMount, onUpdated, ref } from "vue";
 //import productsStore
 import { productsStore } from "../stores/products.ts";
+import { favoriteStore } from "../stores/favorite";
 import { useRouter } from "vue-router";
-import FavButton from "../components/FavButton.vue";
+// import FavButton from "../components/FavButton.vue";
 
 // assign productsStore (as a function) to a variable
 const store = productsStore();
+const favsStore = favoriteStore();
 const router = useRouter();
 
 const products = ref(store.products);
+const favList = ref(favsStore.favorites);
 
 onBeforeMount(() => {
+  products.value = [];
   const query = props.productQuery;
-  if (query !== null) {
+  if (query === "favorites") {
+    console.log("favorites mount");
+    products.value = store.products.filter(({ id }) =>
+      favList.value.includes(id)
+    );
+  } else if (query !== null) {
     products.value = store.products.filter(
       (product) =>
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
@@ -51,8 +76,14 @@ onBeforeMount(() => {
 });
 
 onBeforeUpdate(() => {
+  products.value = [];
   const query = props.productQuery;
-  if (query !== null) {
+  if (query === "favorites") {
+    console.log("favorites update");
+    products.value = store.products.filter(({ id }) =>
+      favList.value.includes(id)
+    );
+  } else if (query !== null) {
     products.value = store.products.filter(
       (product) =>
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
@@ -64,11 +95,17 @@ onBeforeUpdate(() => {
   sendResultsLength();
 });
 
+// const getFavorites = () => {
+//   products.value = store.products.filter(({ id }) =>
+//     favList.value.includes(id)
+//   );
+// };
+
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
 };
 
-const emit = defineEmits(["results-length"]);
+const emit = defineEmits(["results-length", ""]);
 
 const sendResultsLength = () => {
   emit("results-length", products.value.length);
@@ -76,6 +113,7 @@ const sendResultsLength = () => {
 
 const props = defineProps({
   productQuery: String,
+  favorites: Boolean,
 });
 </script>
 

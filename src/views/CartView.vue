@@ -1,8 +1,9 @@
 <template>
   <div id="in-cart-box">
-    <v-btn id="in-cart-left" @click="router.go(-1)" icon flat>
-      <v-icon size="40">mdi-chevron-left</v-icon>
+    <v-btn id="in-cart-left" @click="router.go(-1)" flat :ripple="false">
+      <v-icon size="40">mdi-chevron-left</v-icon>Back
     </v-btn>
+
     <h2 id="in-cart-center">Cart ({{ totalItems }})</h2>
     <div></div>
   </div>
@@ -49,9 +50,10 @@
       >
         <v-icon>mdi-trash-can</v-icon>
       </v-btn>
-      <v-btn flat icon>
+      <!-- <v-btn flat icon>
         <v-icon>mdi-heart</v-icon>
-      </v-btn>
+      </v-btn> -->
+      <FavButton elevation="0" :itemId="item.id" />
     </div>
   </div>
 
@@ -101,6 +103,7 @@
 import { cartStore } from "../stores/cart";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
+import FavButton from "../components/FavButton.vue";
 
 const cart = cartStore();
 const router = useRouter();
@@ -123,12 +126,14 @@ const openProduct = (id: number) => {
 <style scoped>
 #in-cart-box {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
   margin-bottom: 8px;
 }
 
 #in-cart-left {
-  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  /* margin-left: 8px; */
 }
 #in-cart-center {
   margin: auto;
@@ -155,6 +160,7 @@ const openProduct = (id: number) => {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .title-container {

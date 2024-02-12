@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import { productsStore } from "./stores/products.ts";
 import NavComponent from "./components/NavComponent.vue";
+import FooterComponent from "./components/FooterComponent.vue";
 
 const store = productsStore();
 
@@ -13,10 +14,18 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-app>
+  <v-app id="app">
     <NavComponent />
-    <RouterView />
+    <RouterView id="router-view" />
   </v-app>
+  <FooterComponent />
 </template>
 
-<style scoped></style>
+<style scoped>
+#app {
+  display: flex;
+}
+
+#router-view {
+}
+</style>

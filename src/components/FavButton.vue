@@ -10,10 +10,10 @@
     <v-icon
       color="red"
       v-if="props.itemId && favsStore.favorites.includes(props.itemId)"
-      size="30"
+      size="25"
       >mdi-heart</v-icon
     >
-    <v-icon v-else size="30">mdi-heart-outline</v-icon>
+    <v-icon v-else size="25">mdi-heart-outline</v-icon>
   </v-btn>
 </template>
 

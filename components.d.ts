@@ -8,8 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     FavButton: typeof import('./src/components/FavButton.vue')['default']
+    Footer: typeof import('./src/components/Footer.vue')['default']
+    FooterComponent: typeof import('./src/components/FooterComponent.vue')['default']
     NavComponent: typeof import('./src/components/NavComponent.vue')['default']
     OpenedProduct: typeof import('./src/components/OpenedProduct.vue')['default']
+    PageTop: typeof import('./src/components/PageTop.vue')['default']
     ParallaxComponent: typeof import('./src/components/ParallaxComponent.vue')['default']
     ProductComponent: typeof import('./src/components/ProductComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
