@@ -9,7 +9,8 @@
           alt="product image"
           @click="openProduct(product.id)"
         />
-        <!-- <div class="button-backside">a</div> -->
+        <div class="button-backside"></div>
+
         <FavButton class="fav-button" :itemId="product.id" />
       </div>
 
@@ -26,19 +27,14 @@
 import { onBeforeUpdate, onBeforeMount, ref } from "vue";
 //import productsStore
 import { productsStore } from "../stores/products.ts";
-import { favoriteStore } from "../stores/favorite.ts";
 import { useRouter } from "vue-router";
 import FavButton from "../components/FavButton.vue";
 
 // assign productsStore (as a function) to a variable
 const store = productsStore();
-const favsStore = favoriteStore();
 const router = useRouter();
 
 const products = ref(store.products);
-const favorites = ref(favsStore.favorites);
-
-console.log(favorites.value);
 
 onBeforeMount(() => {
   const query = props.productQuery;
@@ -48,7 +44,6 @@ onBeforeMount(() => {
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
         product.category.name.toLowerCase().includes(query!.toLowerCase())
     );
-    console.log(products.value.length);
   } else {
     products.value = [];
   }
@@ -63,7 +58,6 @@ onBeforeUpdate(() => {
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
         product.category.name.toLowerCase().includes(query!.toLowerCase())
     );
-    console.log(products.value.length);
   } else {
     products.value = [];
   }
@@ -116,7 +110,7 @@ const props = defineProps({
 
 .button-backside {
   position: absolute;
-  z-index: 1;
+  z-index: -1;
   top: 26px;
   right: -2px;
   font-size: 16px;
@@ -124,8 +118,7 @@ const props = defineProps({
   height: 40px;
   border: none;
   border-radius: 10px 0 0 10px;
-  background-color: #eee;
-  z-index: 0;
+  background-color: #000;
 }
 
 .fav-button {
@@ -140,6 +133,8 @@ const props = defineProps({
 }
 .product-image {
   width: 100%;
+  height: auto;
+  display: block;
 }
 
 .product-title {

@@ -8,6 +8,8 @@
   <v-divider></v-divider>
   <h2>Electronics</h2>
   <ProductComponent class="product-component" product-query="Electronics" />
+  <h2>Miscellaneous</h2>
+  <ProductComponent class="product-component" product-query="Miscellaneous" />
 </template>
 
 <script setup lang="ts">

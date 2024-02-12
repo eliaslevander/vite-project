@@ -2,7 +2,11 @@
   <nav>
     <v-toolbar id="v-toolbar" scroll-behavior="hide" flat app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title><RouterLink to="/">brandz</RouterLink></v-toolbar-title>
+      <v-toolbar-title
+        ><RouterLink id="site-title" to="/"
+          >brandz.</RouterLink
+        ></v-toolbar-title
+      >
       <v-btn icon @click="goToFavorites">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
@@ -272,6 +276,15 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap");
+
+#site-title {
+  font-family: "Playfair Display", serif;
+  text-decoration: none;
+  color: #000;
+  font-size: 1.25rem;
+}
+
 #search-box-top {
   display: flex;
   padding: 8px;

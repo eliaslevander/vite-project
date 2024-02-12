@@ -19,7 +19,7 @@
       <p id="opened-product-category">
         Category: {{ openedProduct.category.name }}
       </p>
-      <FavButton class="fav-button" :itemId="openedProduct.id" />
+      <FavButton elevation="0" id="fav-button" :itemId="openedProduct.id" />
       <v-btn
         flat
         rounded="0"
@@ -142,5 +142,11 @@ const descriptionOpened = ref(false);
 }
 .product-image {
   width: 90%;
+}
+
+.fav-button {
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
 </style>
