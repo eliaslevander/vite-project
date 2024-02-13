@@ -21,6 +21,17 @@
       </p>
       <FavButton elevation="0" id="fav-button" :itemId="openedProduct.id" />
       <v-btn
+        id="add-button"
+        rounded="0"
+        flat
+        density="default"
+        color="black"
+        block
+        @click="addToCart"
+        >Add to cart</v-btn
+      >
+
+      <v-btn
         flat
         rounded="0"
         @click="descriptionOpened = !descriptionOpened"
@@ -38,16 +49,6 @@
       >
         {{ openedProduct.description }}
       </p>
-      <v-btn
-        id="add-button"
-        rounded="0"
-        flat
-        density="default"
-        color="black"
-        block
-        @click="addToCart"
-        >Add to cart</v-btn
-      >
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.loading">Loading...</div>
+  <div v-if="store.loading"><v-progress-circular></v-progress-circular></div>
   <div id="product-container" v-else>
     <div class="card" v-for="product in products" :key="product.id">
       <div class="image-container">
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUpdate, onBeforeMount, onUpdated, ref } from "vue";
+import { onBeforeUpdate, onBeforeMount, ref } from "vue";
 //import productsStore
 import { productsStore } from "../stores/products.ts";
 import { favoriteStore } from "../stores/favorite";
@@ -56,7 +56,7 @@ const products = ref(store.products);
 const favList = ref(favsStore.favorites);
 
 onBeforeMount(() => {
-  products.value = [];
+  // products.value = [];
   const query = props.productQuery;
   if (query === "favorites") {
     console.log("favorites mount");
@@ -69,6 +69,8 @@ onBeforeMount(() => {
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
         product.category.name.toLowerCase().includes(query!.toLowerCase())
     );
+  } else if (query === "any") {
+    products.value = products.value;
   } else {
     products.value = [];
   }
@@ -76,7 +78,7 @@ onBeforeMount(() => {
 });
 
 onBeforeUpdate(() => {
-  products.value = [];
+  // products.value = [];
   const query = props.productQuery;
   if (query === "favorites") {
     console.log("favorites update");
@@ -89,6 +91,8 @@ onBeforeUpdate(() => {
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
         product.category.name.toLowerCase().includes(query!.toLowerCase())
     );
+  } else if (query === "any") {
+    products.value = products.value;
   } else {
     products.value = [];
   }
@@ -113,7 +117,6 @@ const sendResultsLength = () => {
 
 const props = defineProps({
   productQuery: String,
-  favorites: Boolean,
 });
 </script>
 
@@ -144,19 +147,6 @@ const props = defineProps({
 .image-container {
   width: 100%;
   position: relative;
-}
-
-.button-backside {
-  position: absolute;
-  z-index: -1;
-  top: 26px;
-  right: -2px;
-  font-size: 16px;
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 10px 0 0 10px;
-  background-color: #000;
 }
 
 .fav-button {

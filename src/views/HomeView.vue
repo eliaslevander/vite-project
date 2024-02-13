@@ -1,5 +1,5 @@
 <template>
-  <ParallaxComponent />
+  <!-- <ParallaxComponent /> -->
   <h2>Clothes</h2>
   <ProductComponent class="product-component" product-query="Clothes" />
   <v-divider></v-divider>
@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import ProductComponent from "../components/ProductComponent.vue";
-import ParallaxComponent from "../components/ParallaxComponent.vue";
+// import ParallaxComponent from "../components/ParallaxComponent.vue";
 </script>
 
 <style scoped>

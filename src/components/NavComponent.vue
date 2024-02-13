@@ -16,9 +16,14 @@
       <v-btn icon>
         <v-icon>mdi-account</v-icon>
       </v-btn>
-      <v-btn icon @click="goToCart">
-        <v-icon>mdi-cart</v-icon>
-      </v-btn>
+      <div id="cart-button-box">
+        <v-btn icon @click="goToCart">
+          <v-icon>mdi-cart</v-icon>
+          <span v-if="cart.countItems" id="items-counter">{{
+            cart.countItems
+          }}</span>
+        </v-btn>
+      </div>
     </v-toolbar>
 
     <div
@@ -191,26 +196,36 @@
         </v-btn>
       </div>
       <v-divider></v-divider>
-      <nav>
+      <nav id="navigation">
         <ul>
-          <li class="link">
+          <li class="navigation-link">
             <RouterLink to="/">Home</RouterLink>
           </li>
           <v-divider></v-divider>
-          <li>
+          <li class="navigation-link">
             <RouterLink to="/about">About</RouterLink>
           </li>
           <v-divider></v-divider>
-          <li>
+          <li class="navigation-link">
             <RouterLink to="/contact">Contact</RouterLink>
           </li>
           <v-divider></v-divider>
-          <li>
+          <li class="navigation-link">
             <RouterLink to="/catalog">Categories</RouterLink>
           </li>
           <v-divider></v-divider>
+          <li class="navigation-link">
+            <RouterLink to="/cart">Cart</RouterLink>
+          </li>
+          <v-divider></v-divider>
+          <li class="navigation-link">
+            <RouterLink to="/favorites">Favorites</RouterLink>
+          </li>
+
+          <v-divider></v-divider>
         </ul>
       </nav>
+      <FooterComponent id="footer" />
     </v-navigation-drawer>
   </nav>
 </template>
@@ -218,8 +233,11 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { productsStore } from "../stores/products";
+import { cartStore } from "../stores/cart";
+import FooterComponent from "./FooterComponent.vue";
 import router from "../router";
 
+const cart = cartStore();
 const store = productsStore();
 
 const searchField = ref<string>("");
@@ -277,6 +295,25 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap");
+
+#cart-button-box {
+  position: relative;
+}
+
+#items-counter {
+  position: absolute;
+  z-index: 1;
+  top: 6px;
+  right: 10px;
+  font-size: 10px;
+  border: none;
+  background-color: red;
+  color: #fff;
+  border-radius: 50%;
+  min-width: 16px;
+  line-height: 16px;
+  font-weight: bolder;
+}
 
 #site-title {
   font-family: "Playfair Display", serif;
@@ -377,4 +414,31 @@ export default {
   flex-grow: 1;
   margin: auto 0 auto 8px;
 }
+
+.navigation-link {
+  padding: 8px;
+}
+
+.navigation-link a {
+  color: #000;
+  text-decoration: none;
+}
+
+#navigation-drawer-container {
+  display: flex;
+  flex-direction: column;
+}
+
+:deep() .v-navigation-drawer__content {
+  display: flex;
+  flex-direction: column;
+}
+
+#navigation {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* #footer {
+} */
 </style>

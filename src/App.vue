@@ -16,16 +16,9 @@ onMounted(async () => {
 <template>
   <v-app id="app">
     <NavComponent />
-    <RouterView id="router-view" />
+    <RouterView />
   </v-app>
   <FooterComponent />
 </template>
 
-<style scoped>
-#app {
-  display: flex;
-}
-
-#router-view {
-}
-</style>
+<style scoped></style>
