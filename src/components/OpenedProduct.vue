@@ -20,16 +20,57 @@
         Category: {{ openedProduct.category.name }}
       </p>
       <FavButton elevation="0" id="fav-button" :itemId="openedProduct.id" />
-      <v-btn
-        id="add-button"
-        rounded="0"
-        flat
-        density="default"
-        color="black"
-        block
-        @click="addToCart"
-        >Add to cart</v-btn
-      >
+      <v-dialog transition="dialog-top-transition">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            id="add-button"
+            rounded="0"
+            flat
+            density="default"
+            color="black"
+            block
+            v-bind="props"
+            @click="addToCart"
+            >Add to cart</v-btn
+          >
+        </template>
+        <template v-slot:default="{ isActive }">
+          <div id="added-to-cart-overlay">
+            <div id="cart-overlay-product">
+              <div id="cart-overlay-image-container">
+                <img
+                  id="cart-overlay-image"
+                  :src="openedProduct.images[0]"
+                  alt="product image"
+                />
+              </div>
+              <h2>Added to cart <v-icon>mdi-check</v-icon></h2>
+              <h3>{{ openedProduct.title }}</h3>
+            </div>
+
+            <div id="cart-overlay-button-container">
+              <v-btn
+                rounded="0"
+                flat
+                density="default"
+                color="black"
+                block
+                @click="goToCart"
+                >Go to cart<v-icon>mdi-cart</v-icon></v-btn
+              >
+              <v-btn
+                rounded="0"
+                flat
+                density="default"
+                block
+                id="close-cart-overlay"
+                @click="isActive.value = false"
+                >Continue shopping</v-btn
+              >
+            </div>
+          </div>
+        </template>
+      </v-dialog>
 
       <v-btn
         flat
@@ -53,13 +94,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<!-- <script lang="ts">
 import { defineComponent } from "vue";
+import router from "../router";
 
 export default defineComponent({
   name: "OpenedProduct",
 });
-</script>
+</script> -->
 
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -69,7 +111,7 @@ import "swiper/css/pagination";
 import { computed, ref } from "vue";
 import { productsStore } from "../stores/products";
 import { cartStore } from "../stores/cart";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Product from "../types/Product.ts";
 import FavButton from "../components/FavButton.vue";
 
@@ -77,6 +119,9 @@ const store = productsStore();
 const cart = cartStore();
 
 const route = useRoute();
+const router = useRouter();
+
+const descriptionOpened = ref(false);
 
 const openedProduct = computed<Product>(() => {
   return store.products.find((item) => item.id === Number(route.params.id))!;
@@ -86,7 +131,10 @@ const addToCart = () => {
   cart.addToCart(openedProduct.value);
 };
 
-const descriptionOpened = ref(false);
+const goToCart = () => {
+  router.push({ path: "/cart", name: "CartView" });
+  console.log("cart");
+};
 </script>
 
 <style scoped>
@@ -149,5 +197,35 @@ const descriptionOpened = ref(false);
   font-size: 16px;
   border: none;
   cursor: pointer;
+}
+
+#added-to-cart-overlay {
+  background-color: #fff;
+}
+
+#cart-overlay-button-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+#close-cart-overlay {
+  margin-top: 8px;
+  border: 1px solid #aaa;
+}
+
+#cart-overlay-product {
+  text-align: center;
+}
+
+#cart-overlay-image-container {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+#cart-overlay-image {
+  width: 200px;
 }
 </style>

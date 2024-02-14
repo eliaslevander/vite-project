@@ -49,4 +49,7 @@ export default createRouter({
       component: OpenedProduct,
     },
   ],
+  scrollBehavior() {
+    return { top: 0, left: 0 };
+  },
 });

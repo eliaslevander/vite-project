@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import { favoriteStore } from "../stores/favorite.ts";
+
 const favsStore = favoriteStore();
 
 const props = defineProps({

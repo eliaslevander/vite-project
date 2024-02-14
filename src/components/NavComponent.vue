@@ -419,6 +419,11 @@ export default {
   padding: 8px;
 }
 
+.navigation-link:active {
+  background-color: #eee;
+  text-decoration: underline;
+}
+
 .navigation-link a {
   color: #000;
   text-decoration: none;
