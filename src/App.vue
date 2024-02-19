@@ -15,10 +15,20 @@ onMounted(async () => {
 
 <template>
   <v-app id="app">
-    <NavComponent />
-    <RouterView />
+    <NavComponent id="nav" />
+    <RouterView id="router-view" />
+    <FooterComponent id="footer" />
   </v-app>
-  <FooterComponent />
 </template>
 
-<style scoped></style>
+<style scoped>
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+#router-view {
+  flex-grow: 1;
+}
+</style>

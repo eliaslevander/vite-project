@@ -19,7 +19,6 @@ export const productsStore = defineStore("products", {
     async fetchData() {
       try {
         const response = await axios.get("./db.json");
-        //  this.products = response.data.map((item: object) => item = {...item, isFav: false})
         this.products = response.data;
         this.loading = false;
         console.log(this.loading);

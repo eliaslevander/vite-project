@@ -7,7 +7,7 @@ interface FavoriteState {
 export const favoriteStore = defineStore("favoritesList", {
   state: (): FavoriteState => {
     return {
-      favorites: JSON.parse(localStorage.getItem("favoritesList")) || [],
+      favorites: JSON.parse(localStorage.getItem("favoritesList")!) || [],
     };
   },
   actions: {

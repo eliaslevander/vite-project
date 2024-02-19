@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div id="hero">
     <div id="container">
       <v-parallax height="100" src="/shoes5.jpg"
@@ -30,4 +30,4 @@
   color: #fff;
   z-index: 3;
 }
-</style>
+</style> -->

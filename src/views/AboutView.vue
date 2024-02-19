@@ -1,5 +1,20 @@
 <template>
-  <h1>hej</h1>
+  <div id="container">
+    <h1>About brandz</h1>
+    <p>
+      <strong>brandz</strong> is a mock-up e-commerce that I made as an
+      assignment in school. It is made using Vue 3 and TypeScript with Vuetify
+      as UI-framework.
+    </p>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<style scoped>
+h1 {
+  text-align: center;
+}
+p {
+  text-align: center;
+  padding: 16px;
+}
+</style>

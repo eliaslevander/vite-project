@@ -9,7 +9,7 @@ export const cartStore = defineStore("cart", {
   state: (): CartState => {
     return {
       //return localStorage if it exists, otherwise return empty array
-      items: JSON.parse(localStorage.getItem("items")) || [],
+      items: JSON.parse(localStorage.getItem("items")!) || [],
     };
   },
   actions: {

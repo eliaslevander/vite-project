@@ -1,8 +1,10 @@
 <template>
   <footer>
-    <p>Copyright BRANDZ.</p>
+    <p>Copyright brandz.</p>
   </footer>
 </template>
+
+<script setup lang="ts"></script>
 
 <style scoped>
 footer {

@@ -1,102 +1,79 @@
 <template>
-  <div id="in-cart-box">
-    <v-btn id="in-cart-left" @click="router.go(-1)" flat :ripple="false">
-      <v-icon size="40">mdi-chevron-left</v-icon>Back
-    </v-btn>
+  <div id="container">
+    <div id="in-cart-box">
+      <v-btn id="in-cart-left" @click="router.go(-1)" flat :ripple="false">
+        <v-icon size="40">mdi-chevron-left</v-icon>Back
+      </v-btn>
 
-    <h2 id="in-cart-center">Cart ({{ totalItems }})</h2>
-    <div></div>
-  </div>
-  <v-divider></v-divider>
-
-  <div class="product" v-for="item in cart.items" :key="item.id">
-    <div class="left-container">
-      <img
-        @click="openProduct(item.id)"
-        :src="item.images[0]"
-        alt="product image"
-      />
+      <h2 id="in-cart-center">Cart ({{ totalItems }})</h2>
+      <div></div>
     </div>
-    <div class="center-container">
-      <div class="title-container">
-        <p @click="openProduct(item.id)" class="item-title">{{ item.title }}</p>
-      </div>
-      <div class="quantity-container">
-        <p>Quantity:</p>
-        <div class="quantity-controls">
+    <v-divider></v-divider>
+    <div id="products-container">
+      <div class="product" v-for="item in cart.items" :key="item.id">
+        <div class="left-container">
+          <img
+            class="product-image"
+            @click="openProduct(item.id)"
+            :src="item.images[0]"
+            :alt="item.title"
+          />
+        </div>
+        <div class="center-container">
+          <div class="title-container">
+            <p @click="openProduct(item.id)" class="item-title">
+              {{ item.title }}
+            </p>
+          </div>
+          <div class="quantity-container">
+            <p>Quantity:</p>
+            <div class="quantity-controls">
+              <v-btn
+                :disabled="item.quantity === 1"
+                @click="cart.removeFromCart(item, 'decrease')"
+                flat
+                icon
+                size="x-small"
+              >
+                <v-icon size="25">mdi-minus</v-icon>
+              </v-btn>
+              <span>{{ item.quantity }}</span>
+              <v-btn @click="cart.addToCart(item)" flat icon size="x-small">
+                <v-icon size="25">mdi-plus</v-icon>
+              </v-btn>
+            </div>
+          </div>
+          <p class="item-price">${{ item.price }}</p>
+          <p class="item-price-total">${{ item.price * item.quantity }}</p>
+        </div>
+        <div class="right-container">
           <v-btn
-            :disabled="item.quantity === 1"
-            @click="cart.removeFromCart(item, 'decrease')"
+            @click="cart.removeFromCart(item, 'remove'), (dialog = true)"
             flat
             icon
-            size="x-small"
           >
-            <v-icon size="25">mdi-minus</v-icon>
+            <v-icon>mdi-trash-can</v-icon>
           </v-btn>
-          <span>{{ item.quantity }}</span>
-          <v-btn @click="cart.addToCart(item)" flat icon size="x-small">
-            <v-icon size="25">mdi-plus</v-icon>
-          </v-btn>
+          <FavButton elevation="0" :itemId="item.id" />
         </div>
       </div>
-      <p class="item-price">${{ item.price }}</p>
-      <p class="item-price-total">${{ item.price * item.quantity }}</p>
+
+      <div id="total-price-container">
+        <h2>Total: ${{ totalPrice }}</h2>
+      </div>
     </div>
-    <div class="right-container">
+    <div id="button-container" v-if="cart.items.length">
       <v-btn
-        @click="cart.removeFromCart(item, 'remove'), (dialog = true)"
+        id="checkout-button"
+        rounded="0"
         flat
-        icon
+        density="default"
+        color="black"
+        @click="alertMsg"
+        >Checkout<v-icon size="25">mdi-chevron-right</v-icon></v-btn
       >
-        <v-icon>mdi-trash-can</v-icon>
-      </v-btn>
-      <!-- <v-btn flat icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn> -->
-      <FavButton elevation="0" :itemId="item.id" />
     </div>
   </div>
-
-  <div id="total-price-container">
-    <h1>Total: ${{ totalPrice }}</h1>
-  </div>
-
-  <!-- <template>
-    <v-row justify="center">
-      <v-dialog v-model="dialog" persistent width="auto">
-        <template v-slot:activator="{ props }">
-          <v-btn color="primary" v-bind="props"> Open Dialog </v-btn>
-        </template>
-        <v-card>
-          <v-card-title class="text-h5">
-            Use Google's location service?
-          </v-card-title>
-          <v-card-text
-            >Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are
-            running.</v-card-text
-          >
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="green-darken-1"
-              variant="text"
-              @click="dialog = false"
-            >
-              Disagree
-            </v-btn>
-            <v-btn
-              color="green-darken-1"
-              variant="text"
-              @click="dialog = false, cart.removeFromCart(item, 'remove')"
-            >
-              Agree
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-  </template> -->
 </template>
 
 <script setup lang="ts">
@@ -121,9 +98,18 @@ const totalPrice = computed(() => {
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
 };
+
+const alertMsg = () => {
+  alert("N/A");
+};
 </script>
 
 <style scoped>
+#products-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 #in-cart-box {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -151,6 +137,10 @@ const openProduct = (id: number) => {
   display: flex;
 }
 
+.product-image {
+  cursor: pointer;
+}
+
 .center-container {
   flex-grow: 1;
   padding: 0 8px;
@@ -169,6 +159,7 @@ const openProduct = (id: number) => {
 
 .item-title {
   font-weight: bold;
+  cursor: pointer;
 }
 
 .quantity-container {
@@ -190,6 +181,20 @@ const openProduct = (id: number) => {
 
 .item-price-total {
   font-weight: bold;
+}
+
+#total-price-container {
+  margin: 16px;
+}
+
+#button-container {
+  margin: 16px;
+  display: flex;
+}
+
+#checkout-button {
+  margin: auto;
+  width: 100%;
 }
 
 .v-application__wrap {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.loading"><v-progress-circular></v-progress-circular></div>
+  <div v-if="store.loading">Loading...</div>
   <div id="product-container" v-else>
     <div class="card" v-for="product in products" :key="product.id">
       <div class="image-container">
@@ -10,8 +10,6 @@
           @click="openProduct(product.id)"
         />
         <div class="button-backside"></div>
-
-        <!-- <FavButton class="fav-button" :itemId="product.id" /> -->
         <v-btn
           @click="favsStore.manageFavorite(product.id)"
           flat
@@ -41,11 +39,12 @@
 
 <script setup lang="ts">
 import { onBeforeUpdate, onBeforeMount, ref } from "vue";
-//import productsStore
 import { productsStore } from "../stores/products.ts";
 import { favoriteStore } from "../stores/favorite";
 import { useRouter } from "vue-router";
-// import FavButton from "../components/FavButton.vue";
+// import { directive as motion } from "@vueuse/motion";
+
+import { PropType } from "vue";
 
 // assign productsStore (as a function) to a variable
 const store = productsStore();
@@ -56,21 +55,17 @@ const products = ref(store.products);
 const favList = ref(favsStore.favorites);
 
 onBeforeMount(() => {
-  // products.value = [];
   const query = props.productQuery;
   if (query === "favorites") {
-    console.log("favorites mount");
     products.value = store.products.filter(({ id }) =>
       favList.value.includes(id)
     );
-  } else if (query !== null) {
+  } else if (typeof query === "string") {
     products.value = store.products.filter(
       (product) =>
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
         product.category.name.toLowerCase().includes(query!.toLowerCase())
     );
-  } else if (query === "any") {
-    products.value = products.value;
   } else {
     products.value = [];
   }
@@ -78,67 +73,66 @@ onBeforeMount(() => {
 });
 
 onBeforeUpdate(() => {
-  // products.value = [];
   const query = props.productQuery;
   if (query === "favorites") {
     console.log("favorites update");
     products.value = store.products.filter(({ id }) =>
       favList.value.includes(id)
     );
-  } else if (query !== null) {
+  } else if (typeof query === "string") {
     products.value = store.products.filter(
       (product) =>
         product.title.toLowerCase().includes(query!.toLowerCase()) ||
         product.category.name.toLowerCase().includes(query!.toLowerCase())
     );
-  } else if (query === "any") {
-    products.value = products.value;
   } else {
     products.value = [];
   }
   sendResultsLength();
 });
 
-// const getFavorites = () => {
-//   products.value = store.products.filter(({ id }) =>
-//     favList.value.includes(id)
-//   );
-// };
-
 const openProduct = (id: number) => {
   router.push({ name: "OpenedProduct", params: { id } });
 };
 
-const emit = defineEmits(["results-length", ""]);
+const emit = defineEmits(["results-length"]);
 
 const sendResultsLength = () => {
   emit("results-length", products.value.length);
 };
 
 const props = defineProps({
-  productQuery: String,
+  productQuery: {
+    type: String as PropType<string | string[]>,
+  },
 });
 </script>
 
 <style scoped>
 #product-container {
-  /* width: 100%; */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
   gap: 8px;
   padding: 8px;
 }
 
+@media screen and (min-width: 900px) {
+  #product-container {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .card:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+      rgba(0, 0, 0, 0.44) 0px 15px 12px;
+    transition: 0.1s ease-in;
+  }
+}
+
 .card {
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-
-/* .card:hover {
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-    rgba(0, 0, 0, 0.44) 0px 15px 12px;
-  transition: 0.1s ease-in;
-} */
 
 .card-info {
   padding: 8px;

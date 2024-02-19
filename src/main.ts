@@ -25,10 +25,8 @@ const vuetify = createVuetify({
     },
   },
   defaults: {
-    VAppBar: {
-
-    }
-  }
+    VAppBar: {},
+  },
 });
 //////////////////////////////////////////////////////////////
 

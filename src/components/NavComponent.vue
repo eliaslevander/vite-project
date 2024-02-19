@@ -32,7 +32,7 @@
     >
       <div id="search-box-top">
         <div id="search-box">
-          <v-form action="">
+          <v-form action="#" @submit.prevent="handleSearch">
             <v-text-field
               v-model="searchField"
               density="compact"
@@ -42,6 +42,7 @@
               hide-details
               prepend-inner-icon="mdi-magnify"
               type="search"
+              @keydown.enter="handleSearch"
             >
             </v-text-field>
           </v-form>
@@ -188,7 +189,14 @@
         </li>
       </ul>
     </div>
-    <v-navigation-drawer touchless v-model="drawer" app :width="300">
+    <v-navigation-drawer
+      touchless
+      v-model="drawer"
+      app
+      :width="300"
+      :border="0"
+      temporary
+    >
       <div id="menu-top">
         <p id="menu-text">Menu</p>
         <v-btn @click="drawer = !drawer" icon elevation="2">
@@ -198,28 +206,66 @@
       <v-divider></v-divider>
       <nav id="navigation">
         <ul>
-          <li class="navigation-link">
-            <RouterLink to="/">Home</RouterLink>
+          <li class="navigation-link direct" @click="drawer = false">
+            <RouterLink class="router-link" to="/"
+              ><span>Home</span><v-icon>mdi-chevron-right</v-icon></RouterLink
+            >
           </li>
           <v-divider></v-divider>
-          <li class="navigation-link">
-            <RouterLink to="/about">About</RouterLink>
+          <li class="navigation-link direct" @click="drawer = false">
+            <RouterLink class="router-link" to="/about"
+              ><span>About</span><v-icon>mdi-chevron-right</v-icon></RouterLink
+            >
           </li>
           <v-divider></v-divider>
-          <li class="navigation-link">
-            <RouterLink to="/contact">Contact</RouterLink>
+          <li class="navigation-link" @click="categoriesOpen = !categoriesOpen">
+            <span>Categories</span>
+            <v-icon v-if="!categoriesOpen">mdi-chevron-right</v-icon>
+            <v-icon v-else>mdi-chevron-up</v-icon>
+          </li>
+
+          <ul id="menu-categories-list" v-if="categoriesOpen">
+            <v-divider></v-divider>
+            <li
+              class="navigation-link"
+              @click="search('Clothes'), (drawer = false)"
+            >
+              <span>Clothes</span><v-icon>mdi-chevron-right</v-icon>
+            </li>
+            <v-divider></v-divider>
+            <li
+              class="navigation-link"
+              @click="search('Shoes'), (drawer = false)"
+            >
+              <span>Shoes</span><v-icon>mdi-chevron-right</v-icon>
+            </li>
+            <v-divider></v-divider>
+            <li
+              class="navigation-link"
+              @click="search('Electronics'), (drawer = false)"
+            >
+              <span>Electronics</span><v-icon>mdi-chevron-right</v-icon>
+            </li>
+            <v-divider></v-divider>
+            <li
+              class="navigation-link"
+              @click="search('Miscellaneous'), (drawer = false)"
+            >
+              <span>Miscellaneous</span><v-icon>mdi-chevron-right</v-icon>
+            </li>
+          </ul>
+          <v-divider></v-divider>
+          <li class="navigation-link direct" @click="drawer = false">
+            <RouterLink class="router-link" to="/cart"
+              ><span>Cart</span><v-icon>mdi-chevron-right</v-icon></RouterLink
+            >
           </li>
           <v-divider></v-divider>
-          <li class="navigation-link">
-            <RouterLink to="/catalog">Categories</RouterLink>
-          </li>
-          <v-divider></v-divider>
-          <li class="navigation-link">
-            <RouterLink to="/cart">Cart</RouterLink>
-          </li>
-          <v-divider></v-divider>
-          <li class="navigation-link">
-            <RouterLink to="/favorites">Favorites</RouterLink>
+          <li class="navigation-link direct" @click="drawer = false">
+            <RouterLink class="router-link" to="/favorites"
+              ><span>Favorites</span
+              ><v-icon>mdi-chevron-right</v-icon></RouterLink
+            >
           </li>
 
           <v-divider></v-divider>
@@ -242,6 +288,15 @@ const store = productsStore();
 
 const searchField = ref<string>("");
 const searchResults = ref(store.products);
+const drawer = ref(false);
+const isSearching = ref(false);
+const categoriesOpen = ref(false);
+
+watch(drawer, (drawerState) => {
+  if (drawerState === true) {
+    categoriesOpen.value = false;
+  }
+});
 
 // watch for changes in the searchfield, update searchResults array upon newString
 
@@ -267,6 +322,18 @@ function search(string: string) {
   router.push({ name: "SearchView", params: { string } });
 }
 
+const handleSearch = () => {
+  if (searchField.value.trim() !== "") {
+    router.push({
+      name: "SearchView",
+      params: { string: searchField.value.trim() },
+    });
+    isSearching.value = false;
+    searchResults.value = [];
+    searchField.value = "";
+  }
+};
+
 // Push to a new page by pressing one of the listed searrchresults using product.id as a parameter
 
 const openProduct = (id: number) => {
@@ -279,17 +346,6 @@ const goToFavorites = () => {
 
 const goToCart = () => {
   router.push({ path: "/cart", name: "CartView" });
-};
-</script>
-
-<script lang="ts">
-export default {
-  data() {
-    return {
-      drawer: true,
-      isSearching: false,
-    };
-  },
 };
 </script>
 
@@ -358,6 +414,7 @@ export default {
   padding: 8px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 #search-for-text p {
@@ -376,6 +433,7 @@ export default {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
 }
 
 .searched-items-list-item p {
@@ -415,13 +473,40 @@ export default {
   margin: auto 0 auto 8px;
 }
 
+/* #menu-categories-list {
+  list-style: ;
+} */
+
+#menu-categories-list span {
+  margin-left: 32px;
+}
+
 .navigation-link {
   padding: 8px;
+  display: flex;
+  cursor: pointer;
+}
+
+.navigation-link.direct {
+  padding: 0;
+}
+
+.router-link {
+  width: 100%;
+  padding: 8px;
+  display: flex;
+}
+
+.router-link span {
+  flex-grow: 1;
+}
+
+.navigation-link span {
+  flex-grow: 1;
 }
 
 .navigation-link:active {
   background-color: #eee;
-  text-decoration: underline;
 }
 
 .navigation-link a {
