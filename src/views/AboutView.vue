@@ -2,9 +2,9 @@
   <div id="container">
     <h1>About brandz</h1>
     <p>
-      <strong>brandz</strong> is a mock-up e-commerce that I made as an
-      assignment in school. It is made using Vue 3 and TypeScript with Vuetify
-      as UI-framework.
+      <strong>brandz</strong> is a mock-up e-commerce platform that I created
+      for a school assignment. It is made built using Vue 3 and TypeScript, with Vuetify
+      serving as its UI-framework.
     </p>
   </div>
 </template>
